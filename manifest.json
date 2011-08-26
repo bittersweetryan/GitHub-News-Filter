@@ -1,0 +1,12 @@
+{
+	"name" : "GitHub News Filter",
+	"version" : "0.1",
+	"description" : "Filter your github news feed.",
+	"content_scripts" : [
+		{
+			"matches" : ["https://github.com/"],
+			"css" : ["filter.css"],
+			"js" : ["filter.js"]
+		}
+	]
+}

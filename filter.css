@@ -1,0 +1,13 @@
+.filterBar{
+	background-color: #cdcdcd;
+	height: 24px;
+	text-align: center;
+	font-size:10px;
+	color:#CC0000;
+	font-family:Verdana;
+	padding-top: 10px;
+	width: 100%;
+	position:fixed;
+	left: 0px;
+	bottom: 0px;
+}

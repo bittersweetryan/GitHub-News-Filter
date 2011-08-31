@@ -10,4 +10,14 @@
 	position:fixed;
 	left: 0px;
 	bottom: 0px;
+	border-top-width: medium;
+	border-style: solid;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-color: #333333;
+}
+
+.filterOption{
+	color:#333333;
 }

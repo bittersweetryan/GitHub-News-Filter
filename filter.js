@@ -67,25 +67,38 @@ var filterObj = (function(){
 	};
 
 	var addListener = function(elem){
-		
+
 		elem.addEventListener("change",function(){
-
-			//this won't work, need to get elements by class name which means another function
-			var newsObjects = document.getElementById(elem.value);	
-
-			for(var i = 0; i < newsObjects.length; i++){
-				newsObjects[i].style.display = "none";
-				removedElems.push(newsObjects[i]);
+		
+			if(elem.checked === true){
+				//this won't work, need to get elements by class name which means another function
+				var newsObjects = getElementsByClass("div",elem.value);	
+			
+				for(var i = 0; i < newsObjects.length; i++){
+					console.log(newsObjects[i].style.display);
+					
+					newsObjects[i].style.display = "none";
+					removedElems.push(newsObjects[i]);
+				}
 			}
-		});
+		});	
 	}
 
-	var getElementsByClassName = function(start, theClass){
+	var getElementsByClass = function(startTag, theClass){
 		
-		var start = start || window;
-
-		var elems = [];
-		return elems;
+		//if no start tag was specified then get all the elements
+		var elements = startTag ? document.getElementsByTagName(startTag) : document.all;
+		
+		var matches = [];
+		var pattern = new RegExp("(^| )" + theClass + "( |$)");
+		
+		for(var i =0; i< elements.length; i++){
+			if(pattern.test(elements[i].className)){
+				matches.push(elements[i]);
+			}
+		}
+		
+		return matches;
 	}
 		
 	//public

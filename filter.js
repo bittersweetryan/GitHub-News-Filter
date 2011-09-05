@@ -6,10 +6,15 @@ var filterObj = (function(){
 	//private
 	var filters =  {
 		issueComment : {text: "Issue Comment",id: "issues_comment"},
-		pullRequest : {text: "Pull Request",id: "pull_request"},
+		pullRequest : {text: "Pull Request",id: "issues_opened"},
 		follow : {text: "Follow",id: "follow"},
 		gist : {text: "Gist",id: "gist"},
-		push : {text: "Push",id: "push"}
+		push : {text: "Push",id: "push"},
+		issueOpened : {text: "Issue Opened", id:"issues_opened"},
+		created : {text: "Created Branch", id:"create"},
+		issueClosed : {text: "Close Issue", id:"issues_closed"},
+		fork: {text: "Forked", id: "fork"},
+		watch: {text: "Watch", id: "watch_started"}
 	};
 	
 	var createDiv =  function(){

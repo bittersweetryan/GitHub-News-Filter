@@ -3,10 +3,11 @@
 This will be an extention for Chrome that allows users to filter their news feed in github by category.  I noticed that my newsfeed is filled with comments and issues which I don't really care about, I just want to see the code.  This extention will make it easy to filter out comments and focus on code updates.
 
 ##Todo
-*Add close icon
-*Add functionality to filter and get more results
--attach event listeners to checkboxes
--check size of list to get more
+* Add close icon
+* Keep track of closed boxes so when a filter is unclicked the filtered items re-appears
+* Get more items when others are filtered out
+- Get more items and only show the number that are hidden
++ I think I need one big array that holds ALL the items, hidden and shown.
 
 ##License
 This application is licensed under the MIT License

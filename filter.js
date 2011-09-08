@@ -1,7 +1,6 @@
 var filterObj = (function(){
 	var filterObj;
-	var removedElems = []; //save the elements we remove incase tat filter gets turned off
-	var cachedElems = []; //save any extra elements that come from more
+	var newsItems = []; //grab references to all the elements
 
 	//private
 	var filters =  {
@@ -14,9 +13,14 @@ var filterObj = (function(){
 		created : {text: "Created Branch", id:"create"},
 		issueClosed : {text: "Close Issue", id:"issues_closed"},
 		fork: {text: "Forked", id: "fork"},
-		watch: {text: "Watch", id: "watch_started"}
+		watch: {text: "Watch", id: "watch_started"},
+		editWiki : {text: "Wiki", id: "gollum"}
 	};
 	
+	var getNewsItems = function(){
+		newsItems = getElementsByClass("div","alert");
+	};
+
 	var createDiv =  function(){
 			var newDiv = document.createElement("div");
 			newDiv.id = "filterDiv";
@@ -72,23 +76,31 @@ var filterObj = (function(){
 	};
 
 	var addListener = function(elem){
-
 		elem.addEventListener("change",function(){
-		
-			if(elem.checked === true){
-				//this won't work, need to get elements by class name which means another function
-				var newsObjects = getElementsByClass("div",elem.value);	
+
+			var newsObjects = newsItems;
+			var len = newsObjects.length;
 			
-				for(var i = 0; i < newsObjects.length; i++){
-					console.log(newsObjects[i].style.display);
-					
-					newsObjects[i].style.display = "none";
-					removedElems.push(newsObjects[i]);
+			if(elem.checked === true){
+				//loop through the elelents array instead
+				for(var i = 0; i < len; i++){
+					if(hasClass(newsObjects[i], elem.value)){
+						newsObjects[i].style.display = "none";	
+					}
 				}
 			}
+			else{
+				for(var i = 0; i < len; i++){
+					if(hasClass(newsObjects[i], elem.value)){
+						newsObjects[i].style.display = "inherit";	
+					}
+				}	
+			}
 		});	
-	}
+	};
 
+	//looks like this function and the function below it can be rolled up into a partial
+	//application
 	var getElementsByClass = function(startTag, theClass){
 		
 		//if no start tag was specified then get all the elements
@@ -104,12 +116,19 @@ var filterObj = (function(){
 		}
 		
 		return matches;
-	}
-		
+	};
+	
+	var hasClass = function(elem, theClass){
+
+		var pattern = new RegExp("(^| )" + theClass + "( |$)");	
+		return pattern.test(elem.className);
+	};
+
 	//public
 	return {
 		Init : function(){
 			createDiv();
+			getNewsItems();
 			setFilters();
 		}
 	};	

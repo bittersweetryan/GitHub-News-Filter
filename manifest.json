@@ -4,7 +4,7 @@
 	"description" : "Filter your github news feed.",
 	"content_scripts" : [
 		{
-			"matches" : ["https://github.com/"],
+			"matches" : ["https://github.com/","https://github.com/dashboard/*"],
 			"css" : ["filter.css"],
 			"js" : ["filter.js"]
 		}

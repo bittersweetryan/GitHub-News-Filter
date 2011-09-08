@@ -1,6 +1,8 @@
 var filterObj = (function(){
 	var filterObj;
 	var newsItems = []; //grab references to all the elements
+	var moreLink ;
+	var visibleCount = 30;
 
 	//private
 	var filters =  {
@@ -17,6 +19,19 @@ var filterObj = (function(){
 		editWiki : {text: "Wiki", id: "gollum"}
 	};
 	
+	var getMoreLink = function(){
+		var links = document.getElementById("dashboard").getElementsByTagName("a");
+		var pattern = /\/dashboard\/index\/\d/;
+		var len = links.length;
+
+		for(var i = 0; i < len; i++){
+			if(pattern.test(links[i].href)){
+				moreLink = links[i];
+				break;
+			}
+		}
+	};
+
 	var getNewsItems = function(){
 		newsItems = getElementsByClass("div","alert");
 	};
@@ -80,23 +95,35 @@ var filterObj = (function(){
 
 			var newsObjects = newsItems;
 			var len = newsObjects.length;
-			
+			var i;
 			if(elem.checked === true){
 				//loop through the elelents array instead
-				for(var i = 0; i < len; i++){
+				for(i = 0; i < len; i++){
 					if(hasClass(newsObjects[i], elem.value)){
 						newsObjects[i].style.display = "none";	
+						--visibleCount;
 					}
 				}
 			}
 			else{
-				for(var i = 0; i < len; i++){
+				for(i = 0; i < len; i++){
 					if(hasClass(newsObjects[i], elem.value)){
 						newsObjects[i].style.display = "inherit";	
+						++visibleCount;
 					}
 				}	
 			}
+
+			if(visibleCount < 30){
+				getMoreItems();	
+			}
 		});	
+	};
+
+	var getMoreItems = function(){
+	    var oEvent = document.createEvent( "MouseEvents" );
+	    oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, moreLink);
+	    moreLink.dispatchEvent( oEvent );
 	};
 
 	//looks like this function and the function below it can be rolled up into a partial
@@ -130,6 +157,7 @@ var filterObj = (function(){
 			createDiv();
 			getNewsItems();
 			setFilters();
+			getMoreLink();
 		}
 	};	
 }());

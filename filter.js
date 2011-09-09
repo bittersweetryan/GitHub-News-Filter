@@ -44,7 +44,24 @@ var filterObj = (function(){
 			document.getElementById("footer").appendChild(newDiv);
 			
 			filterObj = newDiv;
+
+			createImg();
 	};
+
+	var createImg = function(){
+		var closeSpan = document.createElement("span");
+		var closeImage = document.createElement("img");
+		
+		closeImage.src = chrome.extension.getURL("assets/close.png");
+		closeSpan.className = "closeBtn";
+
+		closeImage.addEventListener("click",function(){
+			document.getElementById("filterDiv").style.display = "none";	
+		});
+
+		closeSpan.appendChild(closeImage);
+		filterObj.appendChild(closeSpan);
+	}
 	
 	var createElement = function(theType, theID, theName, theValue, theAttrs, theClass){
 		var newElem = document.createElement(theType);

@@ -23,3 +23,10 @@
 	margin-right: 2px;
 	margin-left: 2px;
 }
+
+.closeBtn{
+	position: absolute;
+	right:6px;
+	top:6px;
+	cursor:pointer;
+}

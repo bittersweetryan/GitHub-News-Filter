@@ -1,8 +1,10 @@
 var filterObj = (function(){
 	var filterObj;
 	var newsItems = []; //grab references to all the elements
+	var hiddenClasses = [];
 	var moreLink ;
 	var visibleCount = 30;
+	var filterObjects = [];
 
 	//private
 	var filters =  {
@@ -17,19 +19,6 @@ var filterObj = (function(){
 		fork: {text: "Forked", id: "fork"},
 		watch: {text: "Watch", id: "watch_started"},
 		editWiki : {text: "Wiki", id: "gollum"}
-	};
-	
-	var getMoreLink = function(){
-		var links = document.getElementById("dashboard").getElementsByTagName("a");
-		var pattern = /\/dashboard\/index\/\d/;
-		var len = links.length;
-
-		for(var i = 0; i < len; i++){
-			if(pattern.test(links[i].href)){
-				moreLink = links[i];
-				break;
-			}
-		}
 	};
 
 	var getNewsItems = function(){
@@ -103,6 +92,8 @@ var filterObj = (function(){
 			newFilterWrapper.appendChild(newFilterLabel);
 			newFilterWrapper.appendChild(newFilterOption);
 			
+			filterObjects.push(newFilterOption);
+
 			filterObj.appendChild(newFilterWrapper);
 		}
 	};
@@ -113,8 +104,9 @@ var filterObj = (function(){
 			var newsObjects = newsItems;
 			var len = newsObjects.length;
 			var i;
+
 			if(elem.checked === true){
-				//loop through the elelents array instead
+				//loop through the elements array instead
 				for(i = 0; i < len; i++){
 					if(hasClass(newsObjects[i], elem.value)){
 						newsObjects[i].style.display = "none";	
@@ -130,16 +122,47 @@ var filterObj = (function(){
 					}
 				}	
 			}
-
+			
+			/*i wish i could automate this, but for now I can't since my script is sandboxed
 			if(visibleCount < 30){
 				getMoreItems();	
 			}
+			*/
 		});	
 	};
 
+	var getMoreLink = function(){
+		var moreDiv = getElementsByClass('div',"ajax_paginate")[0];
+		moreLink = moreDiv.firstChild;
+
+		moreLink.addEventListener("click",
+			function(e){
+				var i = 0
+				/******
+				start here, we want to create a loop that calls runfilters every second for 10 seconds when 
+				the more is clicked
+				*******/
+		});
+
+		console.log(moreLink);
+	};
+
+	var runFilters = function(){
+		len = filterObjects.length;
+
+		for(var i = 0; i < len; i++){
+			if(filterObjects[i].checked === true){
+				filterObjects[i].onclick;
+			}
+		}
+
+	}
+
 	var getMoreItems = function(){
 	    var oEvent = document.createEvent( "MouseEvents" );
-	    oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, moreLink);
+
+	    oEvent.initMouseEvent("mouseup", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, moreLink);
+	    
 	    moreLink.dispatchEvent( oEvent );
 	};
 
@@ -179,4 +202,4 @@ var filterObj = (function(){
 	};	
 }());
 
-window.onload = filterObj.Init();
+filterObj.Init();

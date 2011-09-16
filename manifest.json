@@ -6,7 +6,8 @@
 		{
 			"matches" : ["https://github.com/","https://github.com/dashboard/*"],
 			"css" : ["filter.css"],
-			"js" : ["filter.js"]
+			"js" : ["filter.js"],
+			"run_at" : "document_end"
 		}
 	]
 }

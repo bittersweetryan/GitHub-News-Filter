@@ -22,7 +22,25 @@ var filterObj = (function(){
 	};
 
 	var getNewsItems = function(){
-		newsItems = getElementsByClass("div","alert");
+		var items = getElementsByClass("div","alert");
+		var len = items.length;
+		var newsLength = newsItems.length;
+		var found = false;
+
+		for(var i = 0; i < len; i++){
+				
+			//check that the items isn't in the list
+			for(var x; x < newsLength; x++)	{
+				if(newsItems[x] === items[i]){
+					found = true;
+					break;
+				}
+			}
+			
+			if(!found){
+				newsItems.push(items[i]);
+			}
+		}
 	};
 
 	var createDiv =  function(){
@@ -106,6 +124,7 @@ var filterObj = (function(){
 			var i;
 
 			if(elem.checked === true){
+				console.log("ranchange");
 				//loop through the elements array instead
 				for(i = 0; i < len; i++){
 					if(hasClass(newsObjects[i], elem.value)){
@@ -122,12 +141,6 @@ var filterObj = (function(){
 					}
 				}	
 			}
-			
-			/*i wish i could automate this, but for now I can't since my script is sandboxed
-			if(visibleCount < 30){
-				getMoreItems();	
-			}
-			*/
 		});	
 	};
 
@@ -137,11 +150,20 @@ var filterObj = (function(){
 
 		moreLink.addEventListener("click",
 			function(e){
-				var i = 0
-				/******
-				start here, we want to create a loop that calls runfilters every second for 10 seconds when 
-				the more is clicked
-				*******/
+				var i = 0			
+					
+				var intervalID = window.setInterval(function(){
+					i++;
+					console.log(i);
+					runFilters();
+					
+					if( i === 20 ){
+						window.clearInterval(intervalID);
+						i = 0;
+					}
+
+				},200);
+
 		});
 
 		console.log(moreLink);
@@ -152,19 +174,14 @@ var filterObj = (function(){
 
 		for(var i = 0; i < len; i++){
 			if(filterObjects[i].checked === true){
-				filterObjects[i].onclick;
+				var evt = document.createEvent("HTMLEvents");
+				evt.initEvent("change", false, true);
+				filterObjects[i].dispatchEvent(evt);
+				//filterObjects[i].onchange();
 			}
 		}
 
 	}
-
-	var getMoreItems = function(){
-	    var oEvent = document.createEvent( "MouseEvents" );
-
-	    oEvent.initMouseEvent("mouseup", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, moreLink);
-	    
-	    moreLink.dispatchEvent( oEvent );
-	};
 
 	//looks like this function and the function below it can be rolled up into a partial
 	//application

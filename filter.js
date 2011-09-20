@@ -21,7 +21,7 @@ var filterObj = (function(){
 		editWiki : {text: "Wiki", id: "gollum"}
 	};
 
-	var getNewsItems = function(){
+	var getNewsItems = function(callback){
 		var items = getElementsByClass("div","alert");
 		var len = items.length;
 		var newsLength = newsItems.length;
@@ -40,6 +40,10 @@ var filterObj = (function(){
 			if(!found){
 				newsItems.push(items[i]);
 			}
+		}
+
+		if(callback){
+			callback();
 		}
 	};
 
@@ -124,7 +128,6 @@ var filterObj = (function(){
 			var i;
 
 			if(elem.checked === true){
-				console.log("ranchange");
 				//loop through the elements array instead
 				for(i = 0; i < len; i++){
 					if(hasClass(newsObjects[i], elem.value)){
@@ -154,19 +157,17 @@ var filterObj = (function(){
 					
 				var intervalID = window.setInterval(function(){
 					i++;
-					console.log(i);
-					runFilters();
+
+					getNewsItems(runFilters);
 					
 					if( i === 20 ){
 						window.clearInterval(intervalID);
 						i = 0;
 					}
 
-				},200);
+				},500);
 
 		});
-
-		console.log(moreLink);
 	};
 
 	var runFilters = function(){
@@ -177,7 +178,6 @@ var filterObj = (function(){
 				var evt = document.createEvent("HTMLEvents");
 				evt.initEvent("change", false, true);
 				filterObjects[i].dispatchEvent(evt);
-				//filterObjects[i].onchange();
 			}
 		}
 

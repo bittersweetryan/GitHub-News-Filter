@@ -16,12 +16,11 @@
 	border-bottom-style: none;
 	border-left-style: none;
 	border-color: #999999;
+	margin: 1px !important;
 }
 
 .filterOption{
 	color:#333333;
-	margin-right: 2px;
-	margin-left: 2px;
 }
 
 .closeBtn{

@@ -15,7 +15,7 @@ var filterObj = (function(){
 		push : {text: "Push",id: "push"},
 		issueOpened : {text: "Issue Opened", id:"issues_opened"},
 		created : {text: "Created Branch", id:"create"},
-		issueClosed : {text: "Close Issue", id:"issues_closed"},
+		issueClosed : {text: "Close & Merge", id:"issues_closed"},
 		fork: {text: "Forked", id: "fork"},
 		watch: {text: "Watch", id: "watch_started"},
 		editWiki : {text: "Wiki", id: "gollum"}
@@ -26,12 +26,15 @@ var filterObj = (function(){
 		var len = items.length;
 		var newsLength = newsItems.length;
 		var found = false;
+		var currentItem = "";
 
 		for(var i = 0; i < len; i++){
-				
+			
+			found = false;
+			currentItem = items[i];
 			//check that the items isn't in the list
-			for(var x; x < newsLength; x++)	{
-				if(newsItems[x] === items[i]){
+			for(var x = 0; x < newsLength; x++)	{
+				if(newsItems[x] == currentItem){
 					found = true;
 					break;
 				}
@@ -149,32 +152,38 @@ var filterObj = (function(){
 
 	var getMoreLink = function(){
 		var moreDiv = getElementsByClass('div',"ajax_paginate")[0];
+		console.log(moreDiv);
 		moreLink = moreDiv.firstChild;
 
-		moreLink.addEventListener("click",
-			function(e){
-				var i = 0			
-					
+		attachClickListener();
+	};
+
+	var attachClickListener = function(){
+		moreLink.addEventListener("click",function(){
+				var i = 0;							
+
 				var intervalID = window.setInterval(function(){
 					i++;
 
 					getNewsItems(runFilters);
 					
 					if( i === 20 ){
+						//reattach the event
+						getMoreLink();
 						window.clearInterval(intervalID);
-						i = 0;
 					}
 
-				},500);
-
+				},200);
 		});
-	};
+	}
 
 	var runFilters = function(){
 		len = filterObjects.length;
 
 		for(var i = 0; i < len; i++){
+
 			if(filterObjects[i].checked === true){
+
 				var evt = document.createEvent("HTMLEvents");
 				evt.initEvent("change", false, true);
 				filterObjects[i].dispatchEvent(evt);

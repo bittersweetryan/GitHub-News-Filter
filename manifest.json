@@ -1,7 +1,10 @@
 {
 	"name" : "GitHub News Filter",
 	"version" : "0.1",
-	"description" : "Filter your github news feed.",
+	"description" : "The GitHub News Filter allows you to your github news feed on your dashboard by category. For instance you can filter out all issue comments or pull requests so you see only the news items that are important to you.",
+	"icons" : { "16" : "icon16.png",
+				"48" : "icon48.png",
+				"128" : "icon128.png"},
 	"content_scripts" : [
 		{
 			"matches" : ["https://github.com/","https://github.com/dashboard/*"],

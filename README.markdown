@@ -5,10 +5,11 @@ This will be an extention for Chrome that allows users to filter their news feed
 ##Todo
 * ~~Add close icon~~
 * ~~Keep track of closed boxes so when a filter is unclicked the filtered items re-appears~~
-* Get more items when others are filtered out
-   + Get more items and only show the number that are hidden
+* ~~Get more items when others are filtered out~~
+   + ~~Get more items and only show the number that are hidden~~
    + ~~I think I need one big array that holds ALL the items, hidden and shown.~~
- * Persist selected options
+ * ~~Persist selected options~~
+ * Use chrome's native API to check for More link click instead of timed loop
 
 ##License
 This application is licensed under the MIT License

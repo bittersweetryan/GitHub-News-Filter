@@ -1,31 +1,38 @@
 .filterBar{
-	background-color: #cdcdcd;
-	height: 24px;
+	background-color: #2D2D2D;
 	text-align: center;
-	font-size:10px;
-	color:#CC0000;
-	font-family:Verdana;
-	padding-top: 10px;
+	font-size:10pt;
+	color:#CCC;
+	font-family:helvetica,arial,sans-serif;
+	padding: 5px 0;
 	width: 100%;
 	position:fixed;
 	left: 0px;
 	bottom: 0px;
-	border-top-width: medium;
+	border-top-width: thin;
 	border-style: solid;
 	border-right-style: none;
 	border-bottom-style: none;
 	border-left-style: none;
 	border-color: #999999;
-	margin: 1px !important;
+}
+
+span.filterOption{
+	display: inline-block;
+	margin-right:1em;
+}
+
+.filterOption label{
+	margin-right: 0.5em;
 }
 
 .filterOption{
-	color:#333333;
+	color:#ffffff;
 }
 
 .closeBtn{
 	position: absolute;
 	right:6px;
-	top:6px;
+	top:px;
 	cursor:pointer;
 }

@@ -1,3 +1,25 @@
+/*
+Copyright (c) 2011 Ryan Anklam
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
+(the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
+publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+NONE
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 var filterObj = (function(){
 	var filterObj;
 	var newsItems = []; //grab references to all the elements
@@ -5,20 +27,34 @@ var filterObj = (function(){
 	var moreLink ;
 	var visibleCount = 30;
 	var filterObjects = [];
+	var filters;
+	var version = "0.3.0";
+	var versionKey = "githubNewsFilterVersion";
+	var filterKey = "filters";
 
 	//private
-	var filters =  {
-		issueComment : {text: "Issue Comment",id: "issues_comment"},
-		pullRequest : {text: "Pull Request",id: "issues_opened"},
-		follow : {text: "Follow",id: "follow"},
-		gist : {text: "Gist",id: "gist"},
-		push : {text: "Push",id: "push"},
-		issueOpened : {text: "Issue Opened", id:"issues_opened"},
-		created : {text: "Created Branch", id:"create"},
-		issueClosed : {text: "Close & Merge", id:"issues_closed"},
-		fork: {text: "Forked", id: "fork"},
-		watch: {text: "Watch", id: "watch_started"},
-		editWiki : {text: "Wiki", id: "gollum"}
+	
+	var getFilters = function(){
+		//check for filters in the local storage, otherwise create a new object	 
+		if(!localStorage[filterKey]){
+			filters = {
+				issueComment : {text: "Issue Comment",id: "issues_comment",checked: false},
+				pullRequest : {text: "Pull Request & Issue Opened",id: "issues_opened",checked: false},
+				follow : {text: "Follow",id: "follow",checked: false},
+				gist : {text: "Gist",id: "gist",checked: false},
+				push : {text: "Push",id: "push",checked: false},
+				created : {text: "Created Branch", id:"create",checked: false},
+				issueClosed : {text: "Close & Merge", id:"issues_closed",checked: false},
+				fork: {text: "Forked", id: "fork",checked: false},
+				watch: {text: "Watch", id: "watch_started",checked: false},
+				editWiki : {text: "Wiki", id: "gollum",checked: false}
+			};
+
+			localStorage[filterKey] = JSON.stringify(filters);
+		}
+		else{
+			filters = JSON.parse(localStorage[filterKey]);
+		}
 	};
 
 	var getNewsItems = function(callback){
@@ -75,7 +111,7 @@ var filterObj = (function(){
 
 		closeSpan.appendChild(closeImage);
 		filterObj.appendChild(closeSpan);
-	}
+	};
 	
 	var createElement = function(theType, theID, theName, theValue, theAttrs, theClass){
 		var newElem = document.createElement(theType);
@@ -107,11 +143,14 @@ var filterObj = (function(){
 												{type : "checkbox"});
 			addListener(newFilterOption);
 			
+			if(filters[prop].checked){
+				newFilterOption.checked = true;
+			}
+
 			var newFilterLabel = createElement("label");
 			newFilterLabel.innerHTML = filters[prop].text;  
 			
 			var newFilterWrapper = createElement("span");
-
 
 			newFilterWrapper.className = "filterOption";
 			newFilterWrapper.appendChild(newFilterLabel);
@@ -147,12 +186,26 @@ var filterObj = (function(){
 					}
 				}	
 			}
+
+			setFilterVal(elem.value,elem.checked);
 		});	
+	};
+
+	var setFilterVal = function(className,isChecked){
+		
+		for(filterObj in filters){
+
+			if(filters[filterObj].id === className){
+				filters[filterObj]["checked"] = isChecked;
+				break;
+			}
+		}
+
+		localStorage[filterKey] = JSON.stringify(filters);
 	};
 
 	var getMoreLink = function(){
 		var moreDiv = getElementsByClass('div',"ajax_paginate")[0];
-		console.log(moreDiv);
 		moreLink = moreDiv.firstChild;
 
 		attachClickListener();
@@ -217,13 +270,26 @@ var filterObj = (function(){
 		return pattern.test(elem.className);
 	};
 
+	var checkVersion = function(){
+		var storedVersion = localStorage[versionKey];
+		
+		if(!storedVersion || storedVersion !== version){
+			console.log('oldversion');
+			localStorage.removeItem(filterKey);
+			localStorage[versionKey] = version;
+		}
+	};
+
 	//public
 	return {
 		Init : function(){
+			checkVersion();
+			getFilters();
 			createDiv();
 			getNewsItems();
 			setFilters();
 			getMoreLink();
+			runFilters();
 		}
 	};	
 }());

@@ -28,7 +28,6 @@ var filterObj = (function(){
 	var visibleCount = 30;
 	var filterObjects = [];
 	var filters;
-	var version = "0.3.0";
 	var versionKey = "githubNewsFilterVersion";
 	var filterKey = "filters";
 
@@ -272,13 +271,35 @@ var filterObj = (function(){
 
 	var checkVersion = function(){
 		var storedVersion = localStorage[versionKey];
-		
-		if(!storedVersion || storedVersion !== version){
-			console.log('oldversion');
+		var currentVersion = manifest.version;
+
+		if(!storedVersion || storedVersion !== currentVersion){
+			
 			localStorage.removeItem(filterKey);
-			localStorage[versionKey] = version;
+			localStorage[versionKey] = currentVersion;
+
+			
 		}
 	};
+
+	var manifest = (function() {
+		var manifestObject = false;
+		var xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function() {
+		    if (xhr.readyState == 4) {
+		        manifestObject = JSON.parse(xhr.responseText);
+		    }
+		};
+		xhr.open("GET", chrome.extension.getURL('/manifest.json'), false);
+
+		try {
+		    xhr.send();
+		} catch(e) {
+
+		}
+		return manifestObject;
+	})();
 
 	//public
 	return {

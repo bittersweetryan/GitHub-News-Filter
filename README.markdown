@@ -10,6 +10,8 @@ This will be an extention for Chrome that allows users to filter their news feed
    + ~~I think I need one big array that holds ALL the items, hidden and shown.~~
  * ~~Persist selected options~~
  * Use chrome's native API to check for More link click instead of timed loop
+ * Animate initial hides
+   + Not the secondary hides
 
 ##License
 This application is licensed under the MIT License

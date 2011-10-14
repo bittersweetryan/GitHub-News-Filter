@@ -21,15 +21,15 @@ THE SOFTWARE.
 */
 
 var filterObj = (function(){
-	var filterObj;
-	var newsItems = []; //grab references to all the elements
-	var hiddenClasses = [];
-	var moreLink ;
-	var visibleCount = 30;
-	var filterObjects = [];
-	var filters;
-	var versionKey = "githubNewsFilterVersion";
-	var filterKey = "filters";
+	var filterObj,
+		newsItems = [], 
+		hiddenClasses = [],
+		moreLink,
+		visibleCount = 30,
+		filterObjects = [],
+		filters,
+		versionKey = "githubNewsFilterVersion",
+		filterKey = "filters";
 
 	//private
 	
@@ -57,11 +57,11 @@ var filterObj = (function(){
 	};
 
 	var getNewsItems = function(callback){
-		var items = getElementsByClass("div","alert");
-		var len = items.length;
-		var newsLength = newsItems.length;
-		var found = false;
-		var currentItem = "";
+		var items = getElementsByClass("div","alert"),
+			len = items.length,
+			newsLength = newsItems.length,
+			found = false,
+			currentItem = "";
 
 		for(var i = 0; i < len; i++){
 			
@@ -98,8 +98,8 @@ var filterObj = (function(){
 	};
 
 	var createImg = function(){
-		var closeSpan = document.createElement("span");
-		var closeImage = document.createElement("img");
+		var closeSpan = document.createElement("span"),
+			closeImage = document.createElement("img");
 		
 		closeImage.src = chrome.extension.getURL("assets/close.png");
 		closeSpan.className = "closeBtn";
@@ -113,8 +113,8 @@ var filterObj = (function(){
 	};
 	
 	var createElement = function(theType, theID, theName, theValue, theAttrs, theClass){
-		var newElem = document.createElement(theType);
-		var prop; 
+		var newElem = document.createElement(theType),
+			prop; 
 
 		newElem.id = theID || "";
 		newElem.name = theName || "";
@@ -164,9 +164,9 @@ var filterObj = (function(){
 	var addListener = function(elem){
 		elem.addEventListener("change",function(){
 
-			var newsObjects = newsItems;
-			var len = newsObjects.length;
-			var i;
+			var newsObjects = newsItems,
+				len = newsObjects.length,
+				i;
 
 			if(elem.checked === true){
 				//loop through the elements array instead
@@ -230,7 +230,7 @@ var filterObj = (function(){
 	}
 
 	var runFilters = function(){
-		len = filterObjects.length;
+		var len = filterObjects.length;
 
 		for(var i = 0; i < len; i++){
 
@@ -270,8 +270,8 @@ var filterObj = (function(){
 	};
 
 	var checkVersion = function(){
-		var storedVersion = localStorage[versionKey];
-		var currentVersion = manifest.version;
+		var storedVersion = localStorage[versionKey],
+			currentVersion = manifest.version;
 
 		if(!storedVersion || storedVersion !== currentVersion){
 			

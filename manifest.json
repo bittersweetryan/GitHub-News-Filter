@@ -1,6 +1,6 @@
 {
 	"name" : "GitHub News Filter",
-	"version" : "0.3.3",
+	"version" : "0.3.4",
 	"description" : "The GitHub News Filter allows you to filter the news feed on your github dashboard by category.",
 	"icons" : { "16" : "icon16.png",
 				"48" : "icon48.png",

@@ -15,6 +15,7 @@
 	border-bottom-style: none;
 	border-left-style: none;
 	border-color: #999999;
+	z-index:99999;
 }
 
 span.filterOption{
@@ -33,6 +34,6 @@ span.filterOption{
 .closeBtn{
 	position: absolute;
 	right:6px;
-	top:px;
+	top:6px;
 	cursor:pointer;
 }

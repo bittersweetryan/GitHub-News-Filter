@@ -38,6 +38,7 @@ var filterObj = (function(){
 		if(!localStorage[filterKey]){
 			filters = {
 				issueComment : {text: "Issue Comment",id: "issues_comment",checked: false},
+				commitComment : {text: "Commit Comment",id: "commit_comment",checked: false},
 				pullRequest : {text: "Pull Request & Issue Opened",id: "issues_opened",checked: false},
 				follow : {text: "Follow",id: "follow",checked: false},
 				gist : {text: "Gist",id: "gist",checked: false},
@@ -57,7 +58,7 @@ var filterObj = (function(){
 	};
 
 	var getNewsItems = function(callback){
-		var items = getElementsByClass("div","alert"),
+		var items = document.getElementsByClassName("alert"),
 			len = items.length,
 			newsLength = newsItems.length,
 			found = false,
@@ -67,7 +68,7 @@ var filterObj = (function(){
 			
 			found = false;
 			currentItem = items[i];
-			//check that the items isn't in the list
+			//check that the item isnt in the list
 			for(var x = 0; x < newsLength; x++)	{
 				if(newsItems[x] == currentItem){
 					found = true;
@@ -204,7 +205,7 @@ var filterObj = (function(){
 	};
 
 	var getMoreLink = function(){
-		var moreDiv = getElementsByClass('div',"ajax_paginate")[0];
+		var moreDiv = document.getElementsByClassName("ajax_paginate")[0];
 		moreLink = moreDiv.firstChild;
 
 		attachClickListener();
@@ -227,7 +228,7 @@ var filterObj = (function(){
 
 				},200);
 		});
-	}
+	};
 
 	var runFilters = function(){
 		var len = filterObjects.length;
@@ -242,25 +243,6 @@ var filterObj = (function(){
 			}
 		}
 
-	}
-
-	//looks like this function and the function below it can be rolled up into a partial
-	//application
-	var getElementsByClass = function(startTag, theClass){
-		
-		//if no start tag was specified then get all the elements
-		var elements = startTag ? document.getElementsByTagName(startTag) : document.all;
-		
-		var matches = [];
-		var pattern = new RegExp("(^| )" + theClass + "( |$)");
-		
-		for(var i =0; i< elements.length; i++){
-			if(pattern.test(elements[i].className)){
-				matches.push(elements[i]);
-			}
-		}
-		
-		return matches;
 	};
 	
 	var hasClass = function(elem, theClass){
@@ -303,7 +285,7 @@ var filterObj = (function(){
 
 	//public
 	return {
-		Init : function(){
+		init : function(){
 			checkVersion();
 			getFilters();
 			createDiv();
@@ -315,4 +297,4 @@ var filterObj = (function(){
 	};	
 }());
 
-filterObj.Init();
+filterObj.init();
